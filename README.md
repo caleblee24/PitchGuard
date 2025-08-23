@@ -253,7 +253,6 @@ python test_api_simple.py
 - [Snapshot Policy](docs/snapshot_policy.md)
 - [Feature Specification](backend/etl/features_spec.md)
 - [Gold Standard Validation](docs/gold_standard_validation_status.md)
-- [7-Day Action Plan](docs/7_day_action_plan.md)
 
 ### **Operations Documentation**
 - [Runbooks](ops/runbooks.md)
@@ -279,27 +278,18 @@ python test_api_simple.py
 
 ---
 
-## 📄 **LICENSE**
-
-MIT License - see [LICENSE](LICENSE) file for details.
-
----
-
 ## 🏆 **ACKNOWLEDGMENTS**
 
 - **MLB Statcast**: Real pitch data (2022-2024)
 - **Research Community**: Injury prediction literature
-- **Development Team**: Gold standard validation framework
 - **MLB Teams**: Feedback and validation requirements
 
 ---
 
 ## 📞 **CONTACT**
 
-- **Project Lead**: [Your Name]
-- **Technical Lead**: [Your Name]
-- **Email**: [your-email@domain.com]
-- **GitHub**: [github.com/your-org/pitchguard]
+- **Project Lead**: Caleb Lee
+- **Email**: caleblee@gmail.com
 
 ---
 
