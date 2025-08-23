@@ -26,6 +26,23 @@ def convert_markdown_to_pdf():
         with open(markdown_file, 'r', encoding='utf-8') as f:
             md_content = f.read()
         
+        # Add figure references to markdown content
+        figure_replacements = {
+            'Figure 1': '![ROC Curve](figures/figure_1_roc_curve.png)\n\n**Figure 1: ROC Curve for Injury Prediction Model**',
+            'Figure 2': '![Confusion Matrix](figures/figure_2_confusion_matrix.png)\n\n**Figure 2: Confusion Matrix for Top-10% Risk Threshold**',
+            'Figure 3': '![Precision-Recall Curve](figures/figure_3_precision_recall_curve.png)\n\n**Figure 3: Precision-Recall Curve**',
+            'Figure 4': '![Feature Importance](figures/figure_4_feature_importance.png)\n\n**Figure 4: Feature Importance Plot**',
+            'Figure 5': '![Calibration Plot](figures/figure_5_calibration_plot.png)\n\n**Figure 5: Model Calibration Plot**',
+            'Figure 6': '![Performance by Role](figures/figure_6_performance_by_role.png)\n\n**Figure 6: Performance Comparison by Role**',
+            'Figure 7': '![Alert Budgets](figures/figure_7_alert_budgets.png)\n\n**Figure 7: Alert Budgets and Lead Time Analysis**',
+            'Figure 8': '![Data Coverage](figures/figure_8_data_coverage.png)\n\n**Figure 8: Data Coverage and Quality Metrics**',
+            'Figure 9': '![System Architecture](figures/figure_9_system_architecture.png)\n\n**Figure 9: System Architecture Diagram**'
+        }
+        
+        # Replace figure references with actual images
+        for ref, replacement in figure_replacements.items():
+            md_content = md_content.replace(ref, replacement)
+        
         # Convert markdown to HTML
         html_content = markdown.markdown(
             md_content,
@@ -91,6 +108,25 @@ def convert_markdown_to_pdf():
             padding: 1em;
             background-color: #f9f9f9;
             border-left: 4px solid #007acc;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 1em auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .figure {
+            text-align: center;
+            margin: 2em 0;
+            page-break-inside: avoid;
+        }
+        .figure-caption {
+            font-style: italic;
+            font-size: 10pt;
+            margin-top: 0.5em;
+            text-align: center;
         }
         </style>
         """

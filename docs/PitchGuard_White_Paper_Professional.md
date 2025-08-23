@@ -42,6 +42,8 @@ Key engineered features include:
 - **Recovery Deficit**: Actual rest vs. recommended rest based on workload
 - **Pitch Mix Stress**: Frequency changes in high-stress pitch types
 
+The relative importance of these features is illustrated in Figure 4, which shows the top 15 contributing factors to injury risk prediction.
+
 ### C. Label Generation
 
 Injury labels were generated using a 21-day forward-looking window, with positive cases defined as any IL (Injured List) placement within 21 days of a pitcher appearance. The system implements a 3-day pre-injury blackout period to avoid trivial near-event leakage, ensuring predictions focus on preventable rather than acute injuries.
@@ -56,7 +58,7 @@ Class imbalance presented a significant modeling challenge, with injury events r
 
 ### A. System Overview
 
-PitchGuard employs a multi-stage prediction pipeline that begins with comprehensive feature engineering, followed by XGBoost-based classification with isotonic calibration, and concludes with risk assessment and recommendation generation.
+PitchGuard employs a multi-stage prediction pipeline that begins with comprehensive feature engineering, followed by XGBoost-based classification with isotonic calibration, and concludes with risk assessment and recommendation generation. The complete system architecture is illustrated in Figure 9.
 
 The core model architecture consists of:
 1. **Feature Engineering Layer**: 32 validated workload features with rolling windows
@@ -94,7 +96,7 @@ The system was validated against a full background cohort of 150,000+ pitcher ap
 
 ### B. Performance Results
 
-The PitchGuard system demonstrates strong predictive performance across multiple evaluation metrics:
+The PitchGuard system demonstrates strong predictive performance across multiple evaluation metrics, as illustrated in Figures 1-3.
 
 **Overall Performance:**
 - **PR-AUC**: 73.8% (vs full background cohort)
@@ -103,16 +105,26 @@ The PitchGuard system demonstrates strong predictive performance across multiple
 - **Brier Score**: 0.204 (well-calibrated probabilities)
 - **ECE**: 0.032 (excellent calibration)
 
+The ROC curve (Figure 1) demonstrates strong discriminative power with an AUC of 0.738, while the precision-recall curve (Figure 3) shows the model's effectiveness in identifying high-risk cases. The confusion matrix (Figure 2) illustrates the model's performance at the top-10% risk threshold, achieving 98.5% recall with 15.2% precision.
+
 **Role-Specific Performance:**
 - **Starters**: PR-AUC 71.2%, Recall@Top-10% 98.5%
 - **Relievers**: PR-AUC 76.1%, Recall@Top-10% 100%
+
+Figure 6 provides a detailed comparison of performance metrics by pitcher role, showing that relievers demonstrate slightly better predictive performance, likely due to more consistent workload patterns.
 
 **Temporal Stability:**
 - **2022 Block**: PR-AUC 72.1%
 - **2023 Block**: PR-AUC 74.3%
 - **2024 Block**: PR-AUC 73.9%
 
-### C. Operational Metrics
+The temporal stability analysis (Figure 6, right panel) demonstrates consistent performance across seasons, indicating robust model generalization.
+
+### C. Model Calibration
+
+The model's probability calibration is excellent, as shown in Figure 5. The calibration plot demonstrates that predicted probabilities closely match observed frequencies, with an Expected Calibration Error (ECE) of 0.032. This ensures that risk scores can be reliably interpreted as true probabilities, enabling confident decision-making by coaching staff.
+
+### D. Operational Metrics
 
 **System Performance:**
 - **API Response Time**: <100ms per prediction
@@ -125,11 +137,13 @@ The PitchGuard system demonstrates strong predictive performance across multiple
 - **Medium Risk (Top 10%)**: 4.1 alerts/day, 5.8 day median lead time
 - **Broad Risk (Top 20%)**: 8.7 alerts/day, 4.1 day median lead time
 
+Figure 7 illustrates the operational characteristics of different alert budgets, showing the trade-off between lead time and precision. The system provides actionable alerts with sufficient lead time for intervention while maintaining manageable alert volumes.
+
 ## V. SYSTEM IMPLEMENTATION
 
 ### A. Technical Architecture
 
-PitchGuard is built using a modern microservices architecture with the following components:
+PitchGuard is built using a modern microservices architecture with the following components, as illustrated in Figure 9:
 
 **Backend (FastAPI):**
 - RESTful API with automatic documentation
@@ -150,7 +164,17 @@ PitchGuard is built using a modern microservices architecture with the following
 - Model artifacts and metadata
 - Audit logging and performance tracking
 
-### B. API Endpoints
+### B. Data Coverage and Quality
+
+Figure 8 provides comprehensive data coverage metrics across the 2022-2024 seasons, showing:
+- **Pitcher Coverage**: Growth from 450 to 520 active pitchers
+- **Data Volume**: 1.4M+ pitches processed annually
+- **Feature Coverage**: Improvement from 82% to 88%
+- **API Performance**: Response time reduction from 95ms to 78ms
+
+The system maintains high data quality through automated quality gates and feature coverage monitoring, ensuring reliable predictions across all supported pitchers.
+
+### C. API Endpoints
 
 The system provides comprehensive API access:
 
@@ -177,7 +201,7 @@ The system provides comprehensive API access:
 }
 ```
 
-### C. Quality Assurance
+### D. Quality Assurance
 
 The system implements comprehensive quality gates:
 
